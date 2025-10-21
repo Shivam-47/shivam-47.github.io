@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivam Handa - Software Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --accent: #00ff41;
+            --accent-dim: #00cc33;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+            --terminal-green: #00ff41;
+            --blue: #58a6ff;
+            --purple: #bc8cff;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--accent);
+            font-family: monospace;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav a:before {
+            content: '> ';
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a:hover:before {
+            opacity: 1;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--accent) 2px,
+                var(--accent) 4px
+            );
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .terminal-window {
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .btn-close { background: #ff5f56; }
+        .btn-minimize { background: #ffbd2e; }
+        .btn-maximize { background: #27c93f; }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-family: monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+            animation: glitch 3s infinite;
+        }
+
+        .typing-effect {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-family: monospace;
+        }
+
+        .typing-effect:before {
+            content: '$ ';
+            color: var(--accent);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--accent);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            background: rgba(0, 255, 65, 0.1);
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            font-family: monospace;
+            border: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .btn:hover:before {
+            left: 0;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            color: var(--bg-dark);
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        h2:before {
+            content: '# ';
+            color: var(--blue);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .profile-section {
+            position: sticky;
+            top: 100px;
+        }
+
+        .profile-image-container {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 3px solid var(--accent);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-placeholder {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .profile-placeholder:before {
+            content: '// ';
+            color: var(--accent);
+        }
+
+        .profile-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .profile-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            background: var(--bg-card);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .profile-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+
+        .about-text {
+            max-width: 100%;
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .code-comment {
+            color: var(--text-secondary);
+        }
+
+        .code-keyword {
+            color: var(--purple);
+        }
+
+        .code-string {
+            color: var(--blue);
+        }
+
+        .code-value {
+            color: var(--accent);
+        }
+
+        .experience-timeline {
+            position: relative;
+        }
+
+        .experience-item {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .experience-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+
+        .experience-item:before {
+            content: '>';
+            position: absolute;
+            left: -30px;
+            top: 2rem;
+            color: var(--accent);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .experience-item:hover:before {
+            opacity: 1;
+        }
+
+        .exp-header {
+            margin-bottom: 1rem;
+        }
+
+        .exp-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .exp-company {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .exp-company:before {
+            content: '@ ';
+        }
+
+        .exp-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            font-family: monospace;
+        }
+
+        .exp-achievements {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .exp-achievements li {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .exp-achievements li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .exp-achievements strong {
+            color: var(--accent);
+        }
+
+        .skills-section {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .skill-category h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-family: monospace;
+        }
+
+        .skill-category h3:before {
+            content: '// ';
+            color: var(--text-secondary);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
+            transition: all 0.3s;
+            font-family: monospace;
+        }
+
+        .skill-tag:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 255, 65, 0.3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.2);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(88, 166, 255, 0.2) 100%);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-content h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .project-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .tag {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            font-family: monospace;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .contact-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.2);
+        }
+
+        .contact-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: monospace;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            background: var(--bg-card);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 2px solid var(--accent);
+            font-family: monospace;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            padding: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .copyright:before {
+            content: '// ';
+            color: var(--accent);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .typing-effect {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-section {
+                position: relative;
+                top: 0;
+            }
+
+            .profile-image-container {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">home</a></li>
+            <li><a href="#about">about</a></li>
+            <li><a href="#experience">experience</a></li>
+            <li><a href="#skills">skills</a></li>
+            <li><a href="#projects">projects</a></li>
+            <li><a href="#contact">contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="matrix-bg"></div>
+        <div class="hero-content">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-btn btn-close"></div>
+                    <div class="terminal-btn btn-minimize"></div>
+                    <div class="terminal-btn btn-maximize"></div>
+                </div>
+                <h1>SHIVAM_HANDA</h1>
+                <p class="typing-effect">Software Engineer II @ Blinkit | IIT-BBS Gold Medallist<span class="cursor"></span></p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.5+</div>
+                        <div class="stat-label">years_experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">9.5</div>
+                        <div class="stat-label">cgpa_gold_medal</div>
+                    </div>
+                    <!-- <div class="stat">
+                        <div class="stat-value">8K+</div>
+                        <div class="stat-label">rps_served</div>
+                    </div> -->
+                </div>
+                <div class="cta-buttons">
+                    <a href="#experience" class="btn btn-primary">./view_experience</a>
+                    <a href="#contact" class="btn btn-secondary">./contact_me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>about_me</h2>
+        <div class="about-content">
+            <div class="profile-section">
+                <div class="profile-image-container">
+                    <div class="profile-placeholder">
+                        <img src="pic.jpeg" alt="Shivam Handa"> <br>
+                    </div>
+                </div>
+                <div class="profile-links">
+                    <a href="https://github.com/Shivam-47" target="_blank" title="GitHub" aria-label="GitHub">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/shivam-handa-1930b216a/" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:shivamhanda47@gmail.com" title="Email" aria-label="Email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="about-text">
+                <div class="code-block">
+                    <span class="code-comment">// Software Engineer @ Blinkit</span><br>
+                    <span class="code-keyword">const</span> shivam = {<br>
+                    &nbsp;&nbsp;role: <span class="code-string">"Software Engineer II"</span>,<br>
+                    &nbsp;&nbsp;company: <span class="code-string">"Blinkit"</span>,<br>
+                    &nbsp;&nbsp;education: <span class="code-string">"IIT Bhubaneswar (Gold Medallist)"</span>,<br>
+                    &nbsp;&nbsp;cgpa: <span class="code-value">9.5</span>,<br>
+                    &nbsp;&nbsp;passion: <span class="code-string">"Building scalable distributed systems"</span><br>
+                    };
+                </div>
+                <div class="code-block">
+                    <span class="code-comment">// Architecting high-performance backend systems</span><br>
+                    Specialized in optimizing complex pipelines, designing payment infrastructure, and implementing end-to-end solutions. Reduced processing times from <span class="code-value">20 hours → &lt;1 second</span>, automated workflows cutting onboarding from <span class="code-value">14 days → 1 day</span>, and built systems handling <span class="code-value">100K+ assets</span> monthly.
+                </div>
+                <div class="code-block">
+                    <span class="code-comment">// Solving complex technical challenges</span><br>
+                    Built real-time video platforms serving <span class="code-value">10K concurrent sessions</span>, implemented ML-based deduplication on <span class="code-value">22M+ records</span>, and deployed systems serving <span class="code-value">8K RPS</span>. Passionate about turning complex requirements into production-ready, scalable solutions.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>experience</h2>
+        <div class="experience-timeline">
+            <div class="experience-item">
+                <div class="exp-header">
+                    <h3 class="exp-title">Software Development Engineer II</h3>
+                    <div class="exp-company">Blinkit (Zomato)</div>
+                    <div class="exp-date">[Jan 2025 - Present]</div>
+                </div>
+                <ul class="exp-achievements">
+                    <li>Optimized product discovery from <strong>20 hours → &lt;1s</strong> by re-architecting pipeline serving <strong>8K RPS</strong></li>
+                    <li>Designed end-to-end payment infrastructure for <strong>15K+ sellers</strong> with automated reconciliation</li>
+                    <li>Reduced seller onboarding from <strong>14 days → &lt;1 day</strong> using OCR-based verification</li>
+                    <li>Revamped dashboard with real-time metrics, improving impression by <strong>40%</strong></li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <div class="exp-header">
+                    <h3 class="exp-title">Software Development Engineer</h3>
+                    <div class="exp-company">Blinkit (Zomato)</div>
+                    <div class="exp-date">[Aug 2023 - Dec 2024]</div>
+                </div>
+                <ul class="exp-achievements">
+                    <li>Architected Digital Asset Management Service handling <strong>100K assets/month</strong></li>
+                    <li>Designed Blinkit's Seller Hub services, a <strong> self serving dashboard for more than 100k users over India </strong></li>
+                    <li>Integrated verification APIs with caching, reducing costs by <strong>40%</strong></li>
+                    <li>Automated bundle image generation, reducing manual work by <strong>90%</strong></li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-header">
+                    <h3 class="exp-title">Software Development Engineer</h3>
+                    <div class="exp-company">Toppr (BYJU'S)</div>
+                    <div class="exp-date">[Jun 2021 - Aug 2023]</div>
+                </div>
+                <ul class="exp-achievements">
+                    <li>Built video chat platform serving <strong>10K concurrent sessions</strong> using WebRTC/Agora</li>
+                    <li>Consolidate content management dashboards of <strong> 3 business verticals </strong> using Kafka pipelines and DynamoDB</li>
+                    <li>Built deduplication model for <strong>22M questions → 3M</strong> using TF-IDF</li>
+                    <li>Optimized AWS resources reducing costs by <strong>20%</strong></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>skills</h2>
+        <div class="skills-section">
+            <div class="skill-category">
+                <h3>languages</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Golang</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Ruby</span>
+                    <span class="skill-tag">Java</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>frameworks</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Gin</span>
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Rails</span>
+                    <span class="skill-tag">Express.js</span>
+                    <span class="skill-tag">Socket.IO</span>
+                    <span class="skill-tag">OpenCV</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>databases</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">DynamoDB</span>
+                    <span class="skill-tag">Elasticsearch</span>
+                    <span class="skill-tag">Redis</span>
+                    <span class="skill-tag">Neo4j</span>
+                    <span class="skill-tag">Apache Pinot</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>cloud_devops</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">AWS Lambda</span>
+                    <span class="skill-tag">S3</span>
+                    <span class="skill-tag">ECS</span>
+                    <span class="skill-tag">SNS/SQS</span>
+                    <span class="skill-tag">Kafka</span>
+                    <span class="skill-tag">CloudWatch</span>
+                    <span class="skill-tag">CloudFront</span>
+                    <span class="skill-tag">RDS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>featured_projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📦</div>
+                </div>
+                <div class="project-content">
+                    <h3>digital_asset_mgmt</h3>
+                    <p>Org-wide service handling 100K assets/month with versioning, RBAC, and rule-based access controls for Blinkit's entire organization.</p>
+                    <div class="project-tags">
+                        <span class="tag">Golang</span>
+                        <span class="tag">S3</span>
+                        <span class="tag">RBAC</span>
+                        <span class="tag">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">💳</div>
+                </div>
+                <div class="project-content">
+                    <h3>payment_infra</h3>
+                    <p>End-to-end payment system with multiple methods, automated reconciliation, and invoice generation for 15K+ sellers.</p>
+                    <div class="project-tags">
+                        <span class="tag">Golang</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Kafka</span>
+                        <span class="tag">Redis</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🎥</div>
+                </div>
+                <div class="project-content">
+                    <h3>video_chat_platform</h3>
+                    <p>Built 1:1 video platform using WebRTC/Agora serving 10K concurrent sessions with Redis-based race condition handling.</p>
+                    <div class="project-tags">
+                        <span class="tag">WebRTC</span>
+                        <span class="tag">Agora</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">Node.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔍</div>
+                </div>
+                <div class="project-content">
+                    <h3>ml_deduplication</h3>
+                    <p>TF-IDF clustering model to deduplicate 22M questions → 3M, significantly improving content quality and search performance.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">TF-IDF</span>
+                        <span class="tag">ML</span>
+                        <span class="tag">Elasticsearch</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📊</div>
+                </div>
+                <div class="project-content">
+                    <h3>realtime_analytics</h3>
+                    <p>Near-real-time dashboard with city/product filters and complaint tracking, improving billing impression by 40%.</p>
+                    <div class="project-tags">
+                        <span class="tag">Golang</span>
+                        <span class="tag">Apache Pinot</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">React</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🤖</div>
+                </div>
+                <div class="project-content">
+                    <h3>ocr_verification</h3>
+                    <p>Automated seller onboarding with OCR-based verification (GSTIN, FSSAI) and approval workflows, reducing time from 14 days to under 1 day.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">OCR</span>
+                        <span class="tag">OpenCV</span>
+                        <span class="tag">Django</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>get_in_touch</h2>
+        <div class="contact-content">
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                I'm always interested in discussing new opportunities, challenging problems, or innovative projects. Feel free to reach out!
+            </p>
+            <!-- <div class="contact-info">
+                <div class="contact-item">
+                    <a href="mailto:shivamhanda47@gmail.com">
+                        <span>📧</span>
+                        <span>shivamhanda47@gmail.com</span>
+                    </a>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+919810130365">
+                        <span>📱</span>
+                        <span>+91 9810130365</span>
+                    </a>
+                </div>
+            </div> -->
+            <!-- <div class="social-links">
+                <a href="https://github.com/Shivam-47" target="_blank" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/shivam-handa-1930b216a/" target="_blank" title="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div> -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/Shivam-47" target="_blank" title="GitHub" aria-label="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/shivam-handa-1930b216a/" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="mailto:shivamhanda47@gmail.com" title="Email" aria-label="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+                    </svg>
+                </a>
+            </div>
+            <p class="copyright">© 2025 Shivam Handa. All rights reserved.</p>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem;">Built with passion for elegant solutions</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
